@@ -6,14 +6,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Controllers/ValuesController.fs" />
     <Compile Include="Services\ExpressionTypes.fs" />
     <Compile Include="Services\ExpressionUtils.fs" />
+    <Compile Include="Services\ExpressionParser.fs" />
+    <Compile Include="Services\Differentiation.fs" />
+    <Compile Include="Controllers/ValuesController.fs" />
     <Compile Include="Startup.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="FParsec" Version="1.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 

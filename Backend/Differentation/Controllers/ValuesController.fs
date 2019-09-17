@@ -1,34 +1,26 @@
 ﻿namespace Differentation.Controllers
 
-open System
-open System.Collections.Generic
-open System.Linq
-open System.Threading.Tasks
 open Microsoft.AspNetCore.Mvc
+open FParsec
+open ExpressionParser
+open ExpressionUtils
+open Differentiation
 
-[<Route("api/[controller]")>]
+[<CLIMutable>]
+type DataModel = { expression : string; variable : char }
+
 [<ApiController>]
 type ValuesController () =
     inherit ControllerBase()
 
-    [<HttpGet>]
-    member this.Get() =
-        let values = [|"value1"; "value2"|]
-        ActionResult<string[]>(values)
-
-    [<HttpGet("{id}")>]
-    member this.Get(id:int) =
-        let value = "value"
-        ActionResult<string>(value)
-
-    [<HttpPost>]
-    member this.Post([<FromBody>] value:string) =
-        ()
-
-    [<HttpPut("{id}")>]
-    member this.Put(id:int, [<FromBody>] value:string ) =
-        ()
-
-    [<HttpDelete("{id}")>]
-    member this.Delete(id:int) =
-        ()
+    [<HttpGet("simplify")>]
+    member this.Simplify([<FromBody>] value:string) =
+        match run pExpr value with
+        | Success (result, _, _) -> ActionResult<string>((clean result).ToString())
+        | Failure (msg, _, _)    -> ActionResult<string>(msg)
+    
+    [<HttpGet("diff")>]
+    member this.Diff([<FromBody>] value:DataModel) =
+        match run pExpr value.expression with
+        | Success (result, _, _) -> ActionResult<string>((clean (diff value.variable result)).ToString())
+        | Failure (msg, _, _)    -> ActionResult<string>(msg)

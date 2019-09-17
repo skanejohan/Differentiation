@@ -14,5 +14,5 @@ type Expression =
   | Log of Expression
   | Neg of Expression
   | Num of int
-  | Var of string
+  | Var of char
   | Terms of List<Expression>

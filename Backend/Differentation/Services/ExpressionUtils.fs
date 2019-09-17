@@ -243,7 +243,7 @@ and simplify' expr =
     | e -> e
 
 // clean returns an expression tree that has been maximally simplified
-let clean = simplify >> unNeg >> unTermify >> simplifyTermList >> sortTerms >> unNegTerms >> termify >> simplify
+let clean = simplify >> termify >> unNegTerms >> sortTerms >> simplifyTermList >> unTermify >> unNeg >> simplify
 
 //-- repr returns a "readable" string representing the expression
 //repr :: Expression -> String
