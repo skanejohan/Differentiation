@@ -16,11 +16,10 @@
   <ItemGroup>
     <Compile Include="DifferentiationTests.fs" />
     <Compile Include="ParserTests.fs" />
-    <Compile Include="Program.fs" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Differentation\Differentation.fsproj" />
+    <ProjectReference Include="..\Math\Math.fsproj" />
   </ItemGroup>
 
 </Project>

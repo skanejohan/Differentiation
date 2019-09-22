@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Differentiation</title>
+	<meta charset="UTF-8">
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]}});</script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+	<script type="text/javascript" src="./Differentiation.js"></script>
+	<link href="./Differentiation.css" rel="stylesheet">
+
+	<script type="text/javascript">
+	function simplifyIt() {
+		var text = encodeURIComponent($("#ExpressionInput").val());
+		simplifyExpression(text);
+	}
+	function diffIt() {
+		var text = encodeURIComponent($("#ExpressionInput").val());
+		diffExpression(text, 'x');
+	}
+	</script>
+</head>
+
+<body>
+ 	<h1>differentiation</h1>
+	
+	<section>
+		<input id="ExpressionInput" type="text" placeholder="Enter an expression"></input>
+		<button onclick='simplifyIt();'>Simplify</button>
+		<button onclick='diffIt();'>Differentiate</button>
+	</section>
+	
+	<section>
+		<div id="ResultDiv" />
+	</section>
+</body>
+</html>

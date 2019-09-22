@@ -1,6 +1,8 @@
 ﻿module ExpressionUtils
 
+open FParsec
 open ExpressionTypes
+open ExpressionParser
 
 // Returns an expression tree where all "Sub a b" have been replaced with "Add a (Neg b)"
 let rec subToAdd expr =
@@ -282,17 +284,21 @@ let clean = simplify >> termify >> unNegTerms >> sortTerms >> simplifyTermList >
 //indent ind = map (\_ -> ' ') [1..ind]
 
 //-- mathjax returns a string representing the expression formatted for use with MathJax
-//mathjax (Add e1 e2) = mathjax e1 ++ "+" ++ mathjax e2
-//mathjax (Sub e1 e2) = mathjax e1 ++ "-" ++ mathjax e2
-//mathjax (Mul e1 e2) = mathjax e1 ++ "*" ++ mathjax e2
-//mathjax (Div e1 e2) = "\\frac{" ++ mathjax e1 ++ "}{" ++ mathjax e2 ++ "}" 
-//mathjax (Pow e1 e2) = mathjax e1 ++ "^" ++ mathjax e2
-//mathjax (Cos e)     = "cos(" ++ mathjax e ++ ")"
-//mathjax (Sin e)     = "sin(" ++ mathjax e ++ ")"
-//mathjax (Tan e)     = "tan(" ++ mathjax e ++ ")"
-//mathjax (Exp e)     = "exp(" ++ mathjax e ++ ")"
-//mathjax (Ln e)      = "ln(" ++ mathjax e ++ ")"
-//mathjax (Log e)     = "log(" ++ mathjax e ++ ")"
-//mathjax (Num i)     = show i
-//mathjax (Var v)     = v
-//mathjax (Neg e)     = "-" ++ mathjax e
+let rec mathjax expr =
+    match expr with
+    | Add (e1, e2) -> mathjax e1 + "+" + mathjax e2
+    | Sub (e1, e2) -> mathjax e1 + "-" + mathjax e2
+    | Mul (e1, e2) -> mathjax e1 + "*" + mathjax e2
+    | Div (e1, e2) -> "\\frac{" + mathjax e1 + "}{" + mathjax e2 + "}" 
+    | Pow (e1, e2) -> mathjax e1 + "^" + mathjax e2
+    | Cos e        -> "cos(" + mathjax e + ")"
+    | Sin e        -> "sin(" + mathjax e + ")"
+    | Tan e        -> "tan(" + mathjax e + ")"
+    | Exp e        -> "exp(" + mathjax e + ")"
+    | Ln e         -> "ln(" + mathjax e + ")"
+    | Log e        -> "log(" + mathjax e + ")"
+    | Num i        -> string i
+    | Var v        -> string v
+    | Neg e        -> "-" + mathjax e
+    | _            -> ""
+

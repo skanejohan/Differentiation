@@ -4,20 +4,20 @@
     "windowsAuthentication": false, 
     "anonymousAuthentication": true, 
     "iisExpress": {
-      "applicationUrl": "http://localhost:57000",
-      "sslPort": 44371
+      "applicationUrl": "http://localhost:49893",
+      "sslPort": 44335
     }
   },
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "api/values",
+      "launchUrl": "simplify",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Differentation": {
+    "DiffServer": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "api/values",

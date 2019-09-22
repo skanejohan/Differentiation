@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29215.179
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Math", "Math\Math.fsproj", "{831928F4-6664-4F4F-A396-429726E845FB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathServer", "MathServer\MathServer.csproj", "{A1AEFF94-593A-4E70-B7E1-D2292080D3D1}"
+EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "MathTests", "MathTests\MathTests.fsproj", "{ABB9B311-DD46-4FBA-B1A5-5B1D929E2DBB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{831928F4-6664-4F4F-A396-429726E845FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{831928F4-6664-4F4F-A396-429726E845FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{831928F4-6664-4F4F-A396-429726E845FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{831928F4-6664-4F4F-A396-429726E845FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1AEFF94-593A-4E70-B7E1-D2292080D3D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1AEFF94-593A-4E70-B7E1-D2292080D3D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1AEFF94-593A-4E70-B7E1-D2292080D3D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1AEFF94-593A-4E70-B7E1-D2292080D3D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABB9B311-DD46-4FBA-B1A5-5B1D929E2DBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABB9B311-DD46-4FBA-B1A5-5B1D929E2DBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABB9B311-DD46-4FBA-B1A5-5B1D929E2DBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABB9B311-DD46-4FBA-B1A5-5B1D929E2DBB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A2A62008-81D1-41CC-B0A6-7D40018063D2}
+	EndGlobalSection
+EndGlobal
