@@ -1,6 +1,6 @@
 var api = (function() {
 
-    const url = "https://localhost:44335/";
+    const url = "http://213.188.154.144:5002/";
   
     var get = function(path, success, error) {
       $.ajax({
