@@ -1,5 +1,5 @@
 open ftp://skanejohan@ftpcluster.loopia.se/
-put Differentiation.html /apps.johanahlgren.se/public_html/math/
-put Differentiation.css /apps.johanahlgren.se/public_html/math/
-put Differentiation.js /apps.johanahlgren.se/public_html/math/
+put index.html /apps.johanahlgren.se/public_html/math/
+put index.css /apps.johanahlgren.se/public_html/math/
+put index.js /apps.johanahlgren.se/public_html/math/
 exit
