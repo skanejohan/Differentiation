@@ -12,6 +12,8 @@ let pFun name = // Parse a one-parameter function, e.g. sin, cos, ...
     let trail = spaces .>> pstring ")" .>> spaces 
     lead >>. pExpr .>> trail
 
+let parens = pstring "(" >>. pExpr .>> pstring ")"
+
 let opp = new OperatorPrecedenceParser<Expression,unit,unit>()
 opp.AddOperator(InfixOperator("+", spaces, 1, Associativity.Left, fun x y -> Add(x, y)))
 opp.AddOperator(InfixOperator("-", spaces, 1, Associativity.Left, fun x y -> Sub(x, y)))
@@ -39,6 +41,7 @@ opp.TermParser <-
     pCos <|> 
     pCos <|> 
     pNum <|> 
-    pVar
+    pVar <|>
+    parens
 
 do pExprRef := spaces >>. opp.ExpressionParser

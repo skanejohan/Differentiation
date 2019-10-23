@@ -25,10 +25,12 @@ type ParserTest () =
      
     [<Test>]
     member this.Addition () =
-        this.assertParser "3+x"   "Add (Var 'x',Num 3)"
-        this.assertParser "3+3"   "Num 6"
-        this.assertParser "x+x"   "Mul (Num 2,Var 'x')"
-        this.assertParser "x+x+x" "Mul (Num 3,Var 'x')"
+        this.assertParser "3+x"     "Add (Var 'x',Num 3)"
+        this.assertParser "3+3"     "Num 6"
+        this.assertParser "x+x"     "Mul (Num 2,Var 'x')"
+        this.assertParser "x+x+x"   "Mul (Num 3,Var 'x')"
+        this.assertParser "3+(x+2)" "Add (Var 'x',Num 5)"
+
 
     [<Test>]
     member this.Multiplication () =
@@ -100,5 +102,12 @@ type ParserTest () =
         this.assertParser "sin(4*x+3)"      "Sin (Add (Mul (Num 4,Var 'x'),Num 3))"
 
     [<Test>]
+    member this.Exponentiation () =
+        this.assertParser "e^x"        "Pow (Var 'e',Var 'x')"
+        this.assertParser "e^(x)"      "Pow (Var 'e',Var 'x')"
+
+    [<Test>]
     member this.Complex () =
         this.assertParser " sin ( 4 * x ^ 2 + 5 * x ) + cos ( tan ( 3 * x ) ) " "Add\n  (Sin (Add (Mul (Num 4,Pow (Var 'x',Num 2)),Mul (Num 5,Var 'x'))),\n   Cos (Tan (Mul (Num 3,Var 'x'))))"
+        this.assertParser "1/(cos(x)^2)"       "Div (Num 1,Pow (Cos (Var 'x'),Num 2))"
+        this.assertParser "e^(2*x)"            "Pow (Var 'e',Mul (Num 2,Var 'x'))"
