@@ -290,7 +290,7 @@ let rec mathjax expr =
     | Sub (e1, e2) -> mathjax e1 + "-" + mathjax e2
     | Mul (e1, e2) -> mathjax e1 + "*" + mathjax e2
     | Div (e1, e2) -> "\\frac{" + mathjax e1 + "}{" + mathjax e2 + "}" 
-    | Pow (e1, e2) -> mathjax e1 + "^" + mathjax e2
+    | Pow (e1, e2) -> mathjax e1 + "^{" + mathjax e2 + "}"
     | Cos e        -> "cos(" + mathjax e + ")"
     | Sin e        -> "sin(" + mathjax e + ")"
     | Tan e        -> "tan(" + mathjax e + ")"
