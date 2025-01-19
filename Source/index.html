@@ -3,9 +3,17 @@
 <head>
 	<title>Differentiation</title>
 	<meta charset="UTF-8">
+	<!-- <script>var exports = {};</script> -->
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]}});</script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+	<script type="module" src="./math.constants.js"></script>
+	<script type="module" src="./math.tokens.js"></script>
+	<script type="module" src="./math.expressions.js"></script>
+	<script type="module" src="./math.scanner.js"></script>
+	<script type="module" src="./math.differentiation.js"></script>
+	
 	<script type="text/javascript" src="./index.js"></script>
 	<link href="./index.css" rel="stylesheet">
 
@@ -18,7 +26,9 @@
 		var text = encodeURIComponent($("#ExpressionInput").val());
 		diffExpression(text, 'x');
 	}
+	
 	</script>
+	<script type="module" src="./math.tests.js"></script>
 </head>
 
 <body>
