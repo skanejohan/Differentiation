@@ -1,6 +1,7 @@
 import { _var, add, cos, div, exp, ln, log, mul, neg, num, pow, sin, sub, tan, terms } from '../Source/math.expressions';
 import * as simplification from '../Source/math.expressions.simplification';
 import { debug, debugExpression } from '../Source/debug';
+import { _0, _3, _7, _x, _x3, _2x3, _5x3, _x2, _y3, _3x, _4x, _7x, _y, _3y, _2x, _2x2, _4, _1, _5, _x5, _12, _20, _9, _12x, _20x3, _9x2, _2 } from './testconstants';
 
 describe('testing areEqual', () => {
     let add1 = add(num(1), num(2));
@@ -113,10 +114,14 @@ describe('testing areEqual', () => {
     test('testing terms', () => {
       expect(simplification.test.areEqual(terms([neg1]), terms([neg1]))).toBe(true);
       expect(simplification.test.areEqual(terms([neg1]), terms([neg2]))).toBe(false);
+      expect(simplification.test.areEqual(terms([neg1, log1, ln1]), terms([neg1, log1, ln1]))).toBe(true);
+      expect(simplification.test.areEqual(terms([neg1, log1, ln1]), terms([neg1, ln1, log1]))).toBe(false);
     });
     test('complex tests', () => {
       let ex1 = mul(num(2), _var('a'));
       expect(simplification.test.areEqual(ex1, ex1)).toBe(true);
+      let ex2 = terms([_20x3, _9x2, _12x , _7]);
+      expect(simplification.test.areEqual(ex2, terms([_20x3, _12x , _9x2, _7]))).toBe(false);
     });
 });
 
@@ -183,6 +188,27 @@ describe('testing simplifyTermList', () => {
 
 });
 
+describe('testing compare', () => {
+
+  test('testing polynomials', () => {
+    expect(simplification.test.compareTerms(_1, _2)).toEqual(-1);
+    expect(simplification.test.compareTerms(_2, _1)).toEqual(1);
+    expect(simplification.test.compareTerms(_2x, _x)).toEqual(-1);
+    expect(simplification.test.compareTerms(_x, _2x)).toEqual(1);
+    expect(simplification.test.compareTerms(_x2, _x)).toEqual(-1);
+    expect(simplification.test.compareTerms(_x, _x2)).toEqual(1);
+    expect(simplification.test.compareTerms(_y, _x)).toEqual(1);
+    expect(simplification.test.compareTerms(_x, _y)).toEqual(-1);
+    expect(simplification.test.compareTerms(_x, sin(_5))).toEqual(-1);
+    expect(simplification.test.compareTerms(sin(_5), _x)).toEqual(-1);
+    expect(simplification.test.compareTerms(_1, sin(_5))).toEqual(-1);
+    expect(simplification.test.compareTerms(sin(_5), _1)).toEqual(-1);
+    expect(simplification.test.compareTerms(_9x2, _12x)).toEqual(-1);
+    expect(simplification.test.compareTerms(_12x, _9x2)).toEqual(1);
+  });
+  
+});
+
 describe('testing sortTerms', () => {
 
   test('testing add', () => {
@@ -207,9 +233,13 @@ describe('testing sortTerms', () => {
     let b3 = pow(_var('b'), num(3));
     expect(simplification.test.sortTerms(terms([_3a2, a3]))).toEqual(terms([a3, _3a2]));
     expect(simplification.test.sortTerms(terms([a3, _3a2]))).toEqual(terms([a3, _3a2]));
-    expect(simplification.test.sortTerms(terms([a3, _2a3]))).toEqual(terms([a3, _2a3]));
-    expect(simplification.test.sortTerms(terms([_2a3, a3]))).toEqual(terms([a3, _2a3]));
-    expect(simplification.test.sortTerms(terms([_2a3, _3b2, a2, b2, b3, _3a2, a3, _2b3]))).toEqual(terms([a3, _2a3, a2, _3a2, b3, _2b3, b2, _3b2]));
+    expect(simplification.test.sortTerms(terms([a3, _2a3]))).toEqual(terms([_2a3, a3]));
+    expect(simplification.test.sortTerms(terms([_2a3, a3]))).toEqual(terms([_2a3, a3]));
+    expect(simplification.test.sortTerms(terms([_2a3, _3b2, a2, b2, b3, _3a2, a3, _2b3]))).toEqual(terms([_2a3, a3, _3a2, a2, _2b3, b3, _3b2, b2]));
+
+    let ts = terms([_20x3, _9x2, _12x , _7]);
+    expect(simplification.test.sortTerms(ts)).toEqual(ts);
+    expect(simplification.test.sortTerms(terms([_20x3, _12x, _9x2, _7]))).toEqual(ts);
   });
   
 });
@@ -243,28 +273,6 @@ describe('testing termify', () => {
 });
 
 describe('testing simplify', () => {
-
-  let _0 = num(0);
-  let _1 = num(1);
-  let _2 = num(2);
-  let _3 = num(3);
-  let _4 = num(4);
-  let _5 = num(5);
-  let _7 = num(7);
-  let _x = _var('x');
-  let _y = _var('y');
-  let _2x = mul(_2, _x);
-  let _3x = mul(_3, _x);
-  let _4x = mul(_4, _x);
-  let _7x = mul(_7, _x);
-  let _x2 = pow(_x, _2);
-  let _2x2 = mul(_2, _x2);
-  let _x3 = pow(_x, _3);
-  let _2x3 = mul(_2, _x3);
-  let _5x3 = mul(_5, _x3);
-  let _x5 = pow(_x, _5);
-  let _3y = mul(_3, _y);
-  let _y3 = pow(_y, _3);
 
   test('testing add with 0', () => {
     expect(simplification.test.simplify(add(_0, sin(_3)))).toEqual(sin(_3)); // 0 + expression = expression
@@ -337,4 +345,14 @@ describe('testing simplify', () => {
     expect(simplification.test.simplify(mul(_x2, _x))).toEqual(_x3); // x^2 * x = x^3
     expect(simplification.test.simplify(mul(_x2, _x3))).toEqual(_x5); // x^2 * x^3 = x^5
   });
+});
+
+describe('testing clean', () => {
+
+  test('testing polynomials', () => {
+    let expression = add(_7, add(_12x, add(_20x3, _9x2)));
+    let expected = add(_20x3, add(_9x2, add(_12x, _7)));
+    expect(simplification.clean(expression)).toEqual(expected);
+  });
+  
 });

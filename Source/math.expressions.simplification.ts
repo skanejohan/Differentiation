@@ -286,62 +286,6 @@ const unNegTerms = (e: Expression) : Expression => {
 
 // Returns an expression tree where all term lists have been sorted.
 const sortTerms = (e: Expression) : Expression => {
-
-    const compareTerms = (t1 : Expression, t2: Expression) : number => {
-        
-        let v2 : string | null;
-        let pvn1, pvn2 : { v : string, e : number } | null;
-        let mnpvn1, mnpvn2 : { n : number, v : string, e : number } | null;
-
-        if (mnpvn1 = matchMulNumPowVarNum(t1)) {
-            if (mnpvn2 = matchMulNumPowVarNum(t2)) { // Compare a*x^e1 with b*x^e2
-                if (mnpvn1.v == mnpvn2.v) {
-                    if (mnpvn2.e == mnpvn1.e) {
-                        return mnpvn2.n - mnpvn1.n;
-                    }
-                    return mnpvn1.e - mnpvn2.e;
-                }
-                return mnpvn2.v.localeCompare(mnpvn1.v);
-            }
-            if (pvn2 = matchPowVarNum(t2)) { // Compare a*x^e1 with x^e2
-                if (mnpvn1.v == pvn2.v) {
-                    if (pvn2.e == mnpvn1.e) {
-                        return 1 - mnpvn1.n;
-                    }
-                    return mnpvn1.e - pvn2.e;
-                }
-                return pvn2.v.localeCompare(mnpvn1.v);
-            }
-            if (v2 = matchVar(t2)) { // Compare a*x^e1 with x
-                return mnpvn1.v == v2 ? 1 - mnpvn1.e : v2.localeCompare(mnpvn1.v);
-            }
-            return 1; // a*x^e1 > anything else
-        }
-        if (pvn1 = matchPowVarNum(t1)) {
-            if (mnpvn2 = matchMulNumPowVarNum(t2)) {  // Compare x^e1 with b*x^e2
-                if (pvn1.v == mnpvn2.v) {
-                    if (mnpvn2.e == pvn1.e) {
-                        return mnpvn2.n - 1;
-                    }
-                    return pvn1.e - mnpvn2.e;
-                }
-                return mnpvn2.v.localeCompare(pvn1.v);
-            }
-            if (pvn2 = matchPowVarNum(t2)) { // Compare x^e1 with x^e2
-                if (pvn1.v == pvn2.v) {
-                    return pvn1.e - pvn2.e;
-                }
-                return pvn2.v.localeCompare(pvn1.v);
-            }
-            if (v2 = matchVar(t2)) { // Compare x^e1 > x
-                return pvn1.v == v2 ? 1 - pvn1.e : v2.localeCompare(pvn1.v);
-            }
-            return 1; // x^e1 > anything else
-        }
-
-        return 0;
-    }
-
     switch(e.type) {
         case ADD:
             return add(sortTerms(e.e1), sortTerms(e.e2));
@@ -366,7 +310,7 @@ const sortTerms = (e: Expression) : Expression => {
         case NEG:
             return neg(sortTerms(e.e));
         case TERMS:
-            return terms(e.ts.sort(compareTerms).reverse());
+            return terms(e.ts.sort(compareTerms));
         default:
             return e;
     }
@@ -507,6 +451,86 @@ const unNeg = (e: Expression) : Expression => {
     }
 } 
 
+// Compare terms in a polynomial expression, i.e. compare a*v1^m with b*v2^n where v1 and v2 may be the same or different
+const compareTerms = (t1 : Expression, t2: Expression) : number => {
+
+    let ex;
+    let a : number | null = null;
+    let b : number | null = null
+    let v1 : string | null = null;
+    let v2 : string | null = null;
+    let m : number | null = null
+    let n : number | null = null
+
+    if (ex = matchMulNumPowVarNum(t1)) { 
+        a = ex.n; v1 = ex.v; m = ex.e; 
+    } 
+    else if (ex = matchPowVarNum(t1)) { 
+        a = 1; v1 = ex.v; m = ex.e; 
+    } 
+    else if (ex = matchMulNumVar(t1)) {
+        a = ex.n; v1 = ex.v; m = 1;
+    }
+    else if (ex = matchVar(t1)) { 
+        a = 1; v1 = ex; m = 1; 
+    }
+    else if (ex = matchNum(t1)) { 
+        a = ex.n; 
+    }
+    if (ex = matchMulNumPowVarNum(t2)) { 
+        b = ex.n; v2 = ex.v; n = ex.e; 
+    } 
+    else if (ex = matchPowVarNum(t2)) { 
+        b = 1; v2 = ex.v; n = ex.e; 
+    } 
+    else if (ex = matchMulNumVar(t2)) {
+        b = ex.n; v2 = ex.v; n = 1;
+    }
+    else if (ex = matchVar(t2)) { 
+        b = 1; v2 = ex; n = 1; 
+    }
+    else if (ex = matchNum(t2)) { 
+        b = ex.n; 
+    }
+
+    // a*x^m > b*x^n if m > n
+    if (m && n && v1 && v2 && v1 == v2 && m != n) {
+        return n - m;
+    }
+
+    // a*x^m > b*x^n if m == n & a > b
+    if (a && b && v1 && v2 && v1 == v2) {
+        return b - a; 
+    }
+
+    // a*y^m > b*x^n if y < x
+    if (v1 && v2 && v1 != v2) {
+        return v1.localeCompare(v2);
+    }
+
+    // a*x^m > b
+    if (a && b && v1 && !v2) {
+        return -1;
+    }
+
+    // a < b*y^m
+    if (a && b && v2 && !v1) {
+        return 1;
+    }
+
+    // a and b are compared numerically
+    if (a && b) {
+        return a - b;
+    }
+
+    // a < anything else
+    if (a || b) {
+        return -1;
+    }
+
+    return 0;
+}
+
 const areEqual = (e1: Expression, e2: Expression) : boolean => {
     switch(e1.type) {
         case ADD:
@@ -544,6 +568,7 @@ const areEqual = (e1: Expression, e2: Expression) : boolean => {
 
 export const test = { // Used only for testing
     simplifyTermList,
+    compareTerms,
     unNegTerms,
     sortTerms,
     unTermify,
