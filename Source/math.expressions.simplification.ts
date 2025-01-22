@@ -158,7 +158,7 @@ const simplify = (e: Expression) : Expression => {
             case LOG:
                 return log(simplify2(e.e));
             case NEG:
-                return e.e.type == NEG ? simplify2(e.e) : neg(simplify2(e.e));
+                return e.e.type == NEG ? simplify2(e.e.e) : neg(simplify2(e.e));
             default:
                 return e;
         }
@@ -423,9 +423,11 @@ const unTermify = (e: Expression) : Expression => {
 const unNeg = (e: Expression) : Expression => {
     switch(e.type) {
         case ADD:
-            return matchNeg(e.e2) ? sub(unNeg(e.e1), unNeg(e.e2)) : add(unNeg(e.e1), unNeg(e.e2));
+            let negExprAdd = matchNeg(e.e2);
+            return negExprAdd ? sub(unNeg(e.e1), unNeg(negExprAdd)) : add(unNeg(e.e1), unNeg(e.e2));
         case SUB:
-            return matchNeg(e.e2) ? add(unNeg(e.e1), unNeg(e.e2)) : sub(unNeg(e.e1), unNeg(e.e2));
+            let negExprSub = matchNeg(e.e2);
+            return negExprSub ? add(unNeg(e.e1), unNeg(negExprSub)) : sub(unNeg(e.e1), unNeg(e.e2));
         case MUL:
             return mul(unNeg(e.e1), unNeg(e.e2));
         case DIV:
@@ -445,7 +447,7 @@ const unNeg = (e: Expression) : Expression => {
         case LOG:
             return log(unNeg(e.e));
         case NEG:
-            return e.e;
+            return neg(unNeg(e.e));
         default:
             return e;
     }

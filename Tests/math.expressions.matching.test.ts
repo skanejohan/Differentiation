@@ -14,7 +14,7 @@ describe('testing matching', () => {
   });
 
   test('testing matchNeg', () => {
-    expect(matchNeg(neg(_var('a')))).toEqual(neg(_var('a')));
+    expect(matchNeg(neg(_var('a')))).toEqual(_var('a'));
     expect(matchNeg(num(5))).toEqual(null);
   });
 

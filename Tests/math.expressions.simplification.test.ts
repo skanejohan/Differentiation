@@ -345,6 +345,11 @@ describe('testing simplify', () => {
     expect(simplification.test.simplify(mul(_x2, _x))).toEqual(_x3); // x^2 * x = x^3
     expect(simplification.test.simplify(mul(_x2, _x3))).toEqual(_x5); // x^2 * x^3 = x^5
   });
+
+  test('testing neg', () => {
+    expect(simplification.test.simplify(mul(neg(_1), sin(_x)))).toEqual(neg(sin(_x))); // -1 * expression = -expression
+    expect(simplification.test.simplify(neg(mul(neg(_1), sin(_x))))).toEqual(sin(_x)); // -1 * -1 * expression = expression
+  });
 });
 
 describe('testing clean', () => {

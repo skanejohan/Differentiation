@@ -1,6 +1,7 @@
 import { log } from "console";
 import { Expression } from "./math.expressions";
 import { ADD, COS, DIV, EXP, LN, LOG, MUL, NEG, NUM, POW, SIN, SUB, TAN, TERMS, VAR } from "./math.constants";
+import * as S from '../Source/math.expressions.simplification';
 
 const expressionToString = (e: Expression) : string => {
 
@@ -54,4 +55,24 @@ export const debug = (s: string) => {
 
 export const debugExpression = (e: Expression) => {
     log(expressionToString(e));
+}
+
+export const explainCleanSteps = (e: Expression) => {
+    log("Expression: " + expressionToString(e));
+    let ex = S.test.simplify(e);
+    log("simplify: " + expressionToString(ex));
+    ex = S.test.termify(ex);
+    log("termify: " + expressionToString(ex));
+    ex = S.test.unNegTerms(ex);
+    log("unNegTerms: " + expressionToString(ex));
+    ex = S.test.sortTerms(ex);
+    log("sortTerms: " + expressionToString(ex));
+    ex = S.test.simplifyTermList(ex);
+    log("simplifyTermList: " + expressionToString(ex));
+    ex = S.test.unTermify(ex);
+    log("unTermify: " + expressionToString(ex));
+    ex = S.test.unNeg(ex);
+    log("unNeg: " + expressionToString(ex));
+    ex = S.test.simplify(ex);
+    log("simplify: " + expressionToString(ex));
 }

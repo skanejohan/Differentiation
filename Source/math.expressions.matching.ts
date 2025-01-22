@@ -8,7 +8,7 @@ export const matchNum = (e: Expression) : { n : number } | null => { return e.ty
 export const matchVar = (e: Expression) : string | null => { return e.type == VAR ? e.v : null }
 
 // NEG (e) => e | null
-export const matchNeg = (e: Expression) : Expression | null => { return e.type == NEG ? e : null }
+export const matchNeg = (e: Expression) : Expression | null => { return e.type == NEG ? e.e : null }
 
 // NEG ( NUM (n) ) => { n : n } | null
 export const matchNegNum = (e: Expression) : { n : number } | null => { return e.type == NEG && e.e.type == NUM ? { n : e.e.n } : null }
