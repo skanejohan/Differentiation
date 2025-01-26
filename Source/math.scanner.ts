@@ -62,6 +62,9 @@ export default class Scanner {
                 case '*':
                     yield tokens.asterisk();
                     break;
+                case '^':
+                    yield tokens.pow();
+                    break;
                 default:
                     yield tokens.error(`Unexpected character ${c} at position ${this.currentPosition}`);
                     break;

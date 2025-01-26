@@ -326,7 +326,7 @@ describe('testing simplify', () => {
     expect(simplification.test.simplify(sub(sin(_3), _0))).toEqual(sin(_3)); // expression - 0 = expression
     expect(simplification.test.simplify(sub(_7, _3))).toEqual(_4); // n1 - n2 = their difference
     expect(simplification.test.simplify(sub(_x, _x))).toEqual(_0); // x - x = 0
-    expect(simplification.test.simplify(sub(sin(_x), _x))).toEqual(add(sin(_x), neg(_x))); // sub -> add with neg for others
+    expect(simplification.test.simplify(sub(sin(_x), _x))).toEqual(sub(sin(_x), _x)); 
   });
 
   test('testing mul', () => {

@@ -96,7 +96,7 @@ const simplify = (e: Expression) : Expression => {
                 if (e.e1.type == VAR && e.e2.type == VAR && e.e1.v == e.e2.v) { // x - x = 0
                     return num(0);
                 }
-                return add(simplify2(e.e1), neg(simplify2(e.e2)));
+                return sub(simplify2(e.e1), simplify2(e.e2));
             case MUL:
                 if ((m = matchNum(e.e1)) && m.n == 0) { // 0 * expression = 0
                     return num(0);

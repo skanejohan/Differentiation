@@ -7,6 +7,7 @@ export type Token =
   | { type: typeof constants.MINUS }
   | { type: typeof constants.ASTERISK }
   | { type: typeof constants.SLASH }
+  | { type: typeof constants.POW }
   | { type: typeof constants.LPAREN }
   | { type: typeof constants.RPAREN }
   | { type: typeof constants.SIN }
@@ -23,6 +24,7 @@ export const plus = () => { let result : Token = { type: constants.PLUS }; retur
 export const minus = () => { let result : Token = { type: constants.MINUS }; return result; } 
 export const asterisk = () => { let result : Token = { type: constants.ASTERISK }; return result; } 
 export const slash = () => { let result : Token = { type: constants.SLASH }; return result; } 
+export const pow = () => { let result : Token = { type: constants.POW }; return result; }
 export const lparen = () => { let result : Token = { type: constants.LPAREN }; return result; } 
 export const rparen = () => { let result : Token = { type: constants.RPAREN }; return result; } 
 export const sin = () => { let result : Token = { type: constants.SIN }; return result; } 
