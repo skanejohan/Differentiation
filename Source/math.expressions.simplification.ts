@@ -1,6 +1,6 @@
-import { matchAdd, matchMulExprNum, matchMulNumExpr, matchMulNumPowVarNum, matchMulNumVar, matchNeg, matchNegMulNumExpr, matchNegNum, matchNum, matchPowVarNum, matchTerms, matchVar } from './math.expressions.matching';
+import { matchAdd, matchMulExprNum, matchMulNumExpr, matchMulNumPowVarNum, matchMulNumVar, matchNeg, matchNegMulNumExpr, matchNegNum, matchNum, matchPowVarNum, matchTerms, matchVar } from "./math.expressions.matching";
 import { _var, add, cos, div, exp, Expression, ln, log, mul, neg, num, pow, sin, sub, tan, terms } from "./math.expressions";
-import { ADD, COS, DIV, EXP, LN, LOG, MUL, NEG, NUM, POW, SIN, SUB, TAN, TERMS, VAR } from './math.constants';
+import { ADD, COS, DIV, EXP, LN, LOG, MUL, NEG, NUM, POW, SIN, SUB, TAN, TERMS, VAR } from "./math.constants";
 
 export const clean = (e: Expression) : Expression => {
     return simplify(unNeg(unTermify(simplifyTermList(sortTerms(unNegTerms(termify(simplify(e))))))));

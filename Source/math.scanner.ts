@@ -1,4 +1,4 @@
-import * as tokens from './math.tokens';
+import * as tokens from "./math.tokens";
 
 export default class Scanner {
     constructor(source: string) {

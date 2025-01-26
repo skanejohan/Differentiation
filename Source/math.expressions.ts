@@ -27,7 +27,7 @@
 // digit    ::= "0".."9"
 // */
 
-import * as constants from './math.constants'
+import * as constants from "./math.constants"
 
 export type Expression =
 | { type: typeof constants.ADD; e1: Expression; e2: Expression }

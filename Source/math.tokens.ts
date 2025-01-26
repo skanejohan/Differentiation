@@ -1,4 +1,4 @@
-import * as constants from './math.constants'
+import * as constants from "./math.constants"
 
 export type Token =
   | { type: typeof constants.NUM; n: number }
