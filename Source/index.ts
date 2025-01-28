@@ -1,37 +1,38 @@
-import { Expression } from "./math.expressions"
-import { clean } from "./math.expressions.simplification";
-import { diff } from "./math.differentiation";
-import Parser from "./math.parser";
-import Scanner from "./math.scanner";
-import { ADD, MUL, DIV, POW, COS, SIN, TAN, EXP, LN, LOG, NEG, TERMS, SUB, NUM, VAR } from "./math.constants";
+import { Expression } from "./math.expressions";//JS
+import { clean } from "./math.expressions.simplification";//JS
+import { diff } from "./math.differentiation";//JS
+import Parser from "./math.parser";//JS
+import Scanner from "./math.scanner";//JS
+import { ADD, MUL, DIV, POW, COS, SIN, TAN, EXP, LN, LOG, NEG, TERMS, SUB, NUM, VAR } from "./math.constants";//JS
+import { render } from "./render.js";
 
-//-- mathjax returns a string representing the expression formatted for use with MathJax
-const mathjax = (e: Expression) : string => {
+//-- mathjaxText returns a string representing the expression formatted for use with mathjax
+const mathjaxText = (e: Expression) : string => {
     switch(e.type) {
         case ADD:
-            return mathjax(e.e1) + "+" + mathjax(e.e2);
+            return mathjaxText(e.e1) + "+" + mathjaxText(e.e2);
         case SUB:
-            return mathjax(e.e1) + "-" + mathjax(e.e2);
+            return mathjaxText(e.e1) + "-" + mathjaxText(e.e2);
         case MUL:
-            return mathjax(e.e1) + "*" + mathjax(e.e2);
+            return mathjaxText(e.e1) + "*" + mathjaxText(e.e2);
         case DIV:
-            return "\\frac{" + mathjax(e.e1) + "}{" + mathjax(e.e2) + "}";
+            return "\\frac{" + mathjaxText(e.e1) + "}{" + mathjaxText(e.e2) + "}";
         case POW:
-            return mathjax(e.e1) + "^{" + mathjax(e.e2) + "}";
+            return mathjaxText(e.e1) + "^{" + mathjaxText(e.e2) + "}";
         case COS:
-            return "cos(" + mathjax(e.e) + ")"
+            return "cos(" + mathjaxText(e.e) + ")"
         case SIN:
-            return "sin(" + mathjax(e.e) + ")"
+            return "sin(" + mathjaxText(e.e) + ")"
         case TAN:
-            return "tan(" + mathjax(e.e) + ")"
+            return "tan(" + mathjaxText(e.e) + ")"
         case EXP:
-            return "exp(" + mathjax(e.e) + ")"
+            return "exp(" + mathjaxText(e.e) + ")"
         case LN:
-            return "ln(" + mathjax(e.e) + ")"
+            return "ln(" + mathjaxText(e.e) + ")"
         case LOG:
-            return "log(" + mathjax(e.e) + ")"
+            return "log(" + mathjaxText(e.e) + ")"
         case NEG:
-            return "-" + mathjax(e.e)
+            return "-" + mathjaxText(e.e)
         case NUM:
             return e.n.toString();
         case VAR:
@@ -47,7 +48,7 @@ export const simplify = (expression: string) => {
         console.log(parsed);
     }
     else {
-        (resultDiv as HTMLDivElement)!.innerText = mathjax(clean(parsed));
+        render(mathjaxText(clean(parsed)), resultDiv);
     }
 }
 
@@ -57,8 +58,7 @@ export function differentiate(expression: string) {
         console.log(parsed);
     }
     else {
-        let simplified = clean(diff(parsed, 'x'));
-        (resultDiv as HTMLDivElement)!.innerText = mathjax(clean(diff(parsed, 'x')));
+        render(mathjaxText(clean(diff(parsed, 'x'))), resultDiv);
     }
 }
 
@@ -68,15 +68,13 @@ export function parse(expression: string): Expression | string {
     return parser.parse();
 }
 
-let simplifyButton = document.querySelector("#simplify_button");
-let differentiateButton = document.querySelector("#differentiate_button");
 let expressionInput = document.querySelector("#expression_input");
 let resultDiv = document.querySelector("#result_div");
 
-simplifyButton?.addEventListener("click", () => { 
+document.querySelector("#simplify_button")?.addEventListener("click", () => { 
     simplify((expressionInput as HTMLInputElement)?.value);
 });
 
-differentiateButton?.addEventListener("click", () => { 
+document.querySelector("#differentiate_button")?.addEventListener("click", () => { 
     differentiate((expressionInput as HTMLInputElement)?.value);
 });
