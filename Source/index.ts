@@ -42,27 +42,33 @@ const mathjaxText = (e: Expression) : string => {
     }
 }
 
-export const simplify = (expression: string) => {
+const presentError = (error: string) => {
+    if (resultDiv != null) {
+        (resultDiv as HTMLDivElement).innerText = error;
+    }
+}
+
+const simplify = (expression: string) => {
     let parsed = parse(expression);
     if (typeof parsed === "string") {
-        console.log(parsed);
+        presentError(parsed);
     }
     else {
         render(mathjaxText(clean(parsed)), resultDiv);
     }
 }
 
-export function differentiate(expression: string) {
+function differentiate(expression: string) {
     let parsed = parse(expression);
     if (typeof parsed === "string") {
-        console.log(parsed);
+        presentError(parsed);
     }
     else {
         render(mathjaxText(clean(diff(parsed, 'x'))), resultDiv);
     }
 }
 
-export function parse(expression: string): Expression | string {
+function parse(expression: string): Expression | string {
     let tokens = Array.from(new Scanner(expression).getTokens());
     let parser = new Parser(tokens);
     return parser.parse();

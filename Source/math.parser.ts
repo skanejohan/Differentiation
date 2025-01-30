@@ -162,7 +162,11 @@ export default class Parser {
             return true;
         }
         if (mandatory) {
-            this.error = `Expected ${tokenType} but got ${this.currentToken().type}`;
+            if (this.moreTokens()) {
+                this.error = `Expected ${tokenType} but got ${this.currentToken().type}`;
+            } else {
+                this.error = `Unexpected end of input`;
+            }
         }
         return false;
     }
