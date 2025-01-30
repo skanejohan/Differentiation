@@ -1,5 +1,0 @@
-open ftp://skanejohan@ftpcluster.loopia.se/
-put index.html /apps.johanahlgren.se/public_html/math/
-put index.css /apps.johanahlgren.se/public_html/math/
-put index.js /apps.johanahlgren.se/public_html/math/
-exit
