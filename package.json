@@ -3,7 +3,8 @@
     "test": "jest",
     "build": "powershell ./Scripts/build.ps1",
     "clean": "powershell ./Scripts/clean.ps1",
-    "deploy": "powershell ./Scripts/deploy.ps1" 
+    "deploy": "powershell ./Scripts/deploy.ps1",
+    "start": "npx http-server D:/Github/Differentiation/Out -o -p 9999"
   },
   "devDependencies": {
     "@types/jest": "^29.5.14",
